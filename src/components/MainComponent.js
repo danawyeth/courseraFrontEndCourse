@@ -8,7 +8,10 @@ import {PROMOTIONS} from '../shared/promotions';
 import {LEADERS} from '../shared/leaders';
 import Contact from "./ContactComponent";
 import Home from "./HomeComponent";
-import { Routes, Route, Navigate } from 'react-router-dom';
+import DishDetail from './DishdetailComponent'
+import {Route, Switch, Redirect } from 'react-router-dom';
+import { comment } from "postcss";
+import About from "./AboutComponent";
 
 class Main extends Component {
 
@@ -37,16 +40,27 @@ class Main extends Component {
               
           )
       }
+    const DishWithId = ({match}) => {
+        return(
+            <DishDetail dish={this.state.dishes.filter((dish) => dish.id === parseInt(match.params.dishId,10))[0]} 
+              comments={this.state.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId,10))} />
+        );
+      };
+
     return (
       <>
           <Header />
-        <Routes>
-            <Route path="/home" element={<HomePage/>}/>
+        <Switch>
+            <Route path="/home" component={HomePage}/>
             {/*<Route exact path="/menu" element={() => <Menu dishes={this.state.dishes} />} />*/}
-            <Route exact path="/menu" element={<Menu dishes={this.state.dishes}/>} />
-            <Route path="/" element={<Navigate replace to="/Home"/>}/>
-            <Route exact path="/contactus" element={<Contact/>} />
-        </Routes>
+            {/*<Route exact path="/menu" component={<Menu dishes={this.state.dishes}/>} />*/}
+            <Route exact path="/aboutus" component={() => <About leaders={this.state.leaders}/>} />
+            <Route exact path='/menu' component={() => <Menu dishes={this.state.dishes} />} />
+            <Route path='/menu/:dishId' component={DishWithId} />
+            <Route exact path="/contactus" component={Contact} />
+            <Redirect to="/home"/>
+            
+        </Switch>
         
         <Footer />
       </> 

@@ -5,11 +5,16 @@ import {
   CardText,
   CardBody,
   CardTitle,
+  Breadcrumb,
+  BreadcrumbItem
 } from "reactstrap";
+import { Link } from 'react-router-dom';
+
 
 
 
 function RenderDish({dish}) {
+
     if (dish != null) {
       return (
         <div key={dish.id} className="col-12 col-md-5 m-1">
@@ -27,18 +32,18 @@ function RenderDish({dish}) {
     }
   }
 
-  function RenderComments({dish}) {
-    if (dish != null) {
+  function RenderComments({comments}) {
+    if (comments != null) {
       return (
         <div className="col-12 col-md-5 m-1">
           <div>
             <h4>Comments</h4>
-            {dish.comments.map((dish) => {
+            {comments.map((comments) => {
               return (
                 <>
-                  <p>{dish.comment}</p>
+                  <p>{comments.comment}</p>
                   <p>
-                    -- {dish.author} , {new Intl.DateTimeFormat('en-US', {year: 'numeric' , month: 'short', day: '2-digit'}).format(new Date(Date.parse(dish.date)))}
+                    -- {comments.author} , {new Intl.DateTimeFormat('en-US', {year: 'numeric' , month: 'short', day: '2-digit'}).format(new Date(Date.parse(comments.date)))}
                   </p>
                 </>
               );
@@ -55,8 +60,12 @@ function RenderDish({dish}) {
     return (
       <div className="container">
         <div className="row">
+        <Breadcrumb>
+                <BreadcrumbItem><Link to="/menu">Menu</Link></BreadcrumbItem>
+                <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
+            </Breadcrumb>
           <RenderDish dish={props.dish}/>
-          <RenderComments dish={props.dish}/>
+          <RenderComments comments={props.comments}/>
         </div>
       </div>
     );
