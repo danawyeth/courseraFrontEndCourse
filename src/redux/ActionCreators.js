@@ -1,17 +1,51 @@
 import * as ActionTypes from "./ActionTypes";
-import { DISHES } from "../shared/dishes";
 import { baseUrl } from "../shared/baseUrl";
-import { comment } from "postcss";
 
-export const addComment = (dishId, rating, author, comment) => ({
-  type: ActionTypes.ADD_COMMENT,
-  payload: {
+
+export const addComment = (comment) => ({
+    type: ActionTypes.ADD_COMMENT,
+    payload: comment
+});
+
+export const postComment = (dishId, rating, author, comment) => (dispatch) => {
+  
+ const newComment = {
     dishId: dishId,
     rating: rating,
     author: author,
     comment: comment,
-  },
-});
+  }
+  newComment.date = new Date().toISOString();
+
+  return fetch(baseUrl + 'comments', {
+    method: "POST",
+    body: JSON.stringify(newComment), // So, we'll take this JavaScript object, and then turn that into a JSON, and then put that into the body of the message. So, recall that a post operation requires you to send the data in the body of the message.
+    headers: {
+      "Content-Type": "application/json" //specify that the body is in json format
+    },
+    credentials: "same-origin",
+  })
+    .then(response => {
+      if (response.ok) {
+        return response;
+      } else {
+        var error = new Error(
+          "Error" + response.status + ": " + response.statusText
+        );
+        error.response = response;
+        throw error;
+      }
+    },
+    error => {
+    //  var errmess = new Error(error.message);
+      throw error; // handles if server doesn't give back anything
+    }
+  )
+  .then((response) => response.json())
+  .then(response => dispatch(addComment(response)))
+  .catch(error => { console.log('Post Comments ', error.message, alert('Your comment could not be posted\nError: ' + error.message))})
+};
+
 //thunk
 export const fetchDishes = () => (dispatch) => {
   dispatch(dishesLoading(true));
@@ -19,7 +53,7 @@ export const fetchDishes = () => (dispatch) => {
   //    dispatch(addDishes(DISHES));
   //}, 2000)
 
-  return fetch(baseUrl + 'dishses') // to fetch the dishes url
+  return fetch(baseUrl + 'dishes') // to fetch the dishes url
     .then(
       (response) => {
         if (response.ok) {

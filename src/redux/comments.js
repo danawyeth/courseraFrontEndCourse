@@ -15,8 +15,8 @@ export const Comments = (state = {
 
         case ActionTypes.ADD_COMMENT:
             var comment = action.payload;
-            comment.id = state.comments.length; //to look at the length of the array, if it contains a certain number of comments. teh length of the array tells me how many comments they are. then we are assigning the comment id in sequential order
-            comment.date = new Date().toISOString(); 
+            //comment.id = state.comments.length;
+            
             return {...state, comments: state.comments.concat(comment)};//only storing it in the memory.
         default:
             return state;
