@@ -19,7 +19,7 @@ import { Link } from "react-router-dom";
 import { Control, LocalForm, Errors } from "react-redux-form";
 import { Loading } from "./LoadingComponent";
 import { baseUrl } from "../shared/baseUrl";
-//import Comment from "./CommentForm";
+import { FadeTransform, Fade, Stagger } from 'react-animation-components';
 
 const required = (val) => val && val.length; //checks to see if the value is greater than zero
 const maxLength = (len) => (val) => !val || val.length <= len; //will check if length is less than or equal the value that is specified in this function
@@ -29,6 +29,11 @@ function RenderDish({ dish }) {
   if (dish != null) {
     return (
       <div key={dish.id} className="col-12 col-md-5 m-1">
+          <FadeTransform
+                in
+                transformProps={{
+                    exitTransform: 'scale(0.5) translateY(-50%)'
+                }}>
         <Card>
           <CardImg width="100%" src={baseUrl + dish.image} alt={dish.name} />
           <CardBody>
@@ -36,6 +41,7 @@ function RenderDish({ dish }) {
             <CardText>{dish.description}</CardText>
           </CardBody>
         </Card>
+        </FadeTransform>
       </div>
     );
   } else {
@@ -49,9 +55,11 @@ function RenderComments({ comments, postComment, dishId }) {
       <div className="col-12 col-md-5 m-1">
         <div>
           <h4>Comments</h4>
+           <Stagger in>
           {comments.map((comments) => {
             return (
               <>
+               <Fade in>
                 <p>{comments.comment}</p>
                 <p>
                   -- {comments.author} ,{" "}
@@ -65,9 +73,11 @@ function RenderComments({ comments, postComment, dishId }) {
                   }).format(Date(Date.parse(comments.date)))}*/}
                   {/*.format(new Date(Date.parse(comments.date)))}*/}
                 </p>
+                </Fade>
               </>
             );
           })}
+            </Stagger>
           <Comment dishId={dishId} postComment={postComment} />
         </div>
       </div>
@@ -147,47 +157,47 @@ class Comment extends Component {
                 </Col>
               </Row>
               <Row className="form-group">
-              <Col md={10}>
-              <Label htmlFor="author" md={3}>
-                Your name
-              </Label>
-                <Control.text
-                  model=".author"
-                  id="author"
-                  name="author"
-                  placeholder="Your Name"
-                  className="form-control"
-                  validators={{
-                    required,
-                    minLength: minLength(3),
-                    maxLength: maxLength(15),
-                  }}
-                />
-                <Errors
-                  className="text-danger"
-                  model=".author"
-                  show="touched"
-                  messages={{
-                    required: "Required",
-                    minLength: "Must be greater than 2 characters",
-                    maxLength: "Must be 15 characters or less",
-                  }}
-                />
-              </Col>
+                <Col md={10}>
+                  <Label htmlFor="author" md={3}>
+                    Your name
+                  </Label>
+                  <Control.text
+                    model=".author"
+                    id="author"
+                    name="author"
+                    placeholder="Your Name"
+                    className="form-control"
+                    validators={{
+                      required,
+                      minLength: minLength(3),
+                      maxLength: maxLength(15),
+                    }}
+                  />
+                  <Errors
+                    className="text-danger"
+                    model=".author"
+                    show="touched"
+                    messages={{
+                      required: "Required",
+                      minLength: "Must be greater than 2 characters",
+                      maxLength: "Must be 15 characters or less",
+                    }}
+                  />
+                </Col>
               </Row>
               <Row className="form-group">
-              <Col md={10}>
-              <Label htmlFor="comment" md={3}>
-                Comment
-              </Label>
-                <Control.textarea
-                  model=".comment"
-                  id="comment"
-                  name="comment"
-                  rows="6"
-                  className="form-control"
-                />
-              </Col>
+                <Col md={10}>
+                  <Label htmlFor="comment" md={3}>
+                    Comment
+                  </Label>
+                  <Control.textarea
+                    model=".comment"
+                    id="comment"
+                    name="comment"
+                    rows="6"
+                    className="form-control"
+                  />
+                </Col>
               </Row>
               <Col md={{ size: 10 }}>
                 <Button type="submit" color="primary" className="mt-2">

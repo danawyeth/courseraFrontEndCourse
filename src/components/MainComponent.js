@@ -15,6 +15,7 @@ import {
   fetchPromos,
 } from "../redux/ActionCreators";
 import { actions } from "react-redux-form";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 const mapStateToProps = (state) => {
   return {
@@ -100,6 +101,8 @@ class Main extends Component {
     return (
       <>
         <Header />
+        <TransitionGroup>
+            <CSSTransition key={this.props.location.key} classNames="page" timeout={300}>
         <Switch>
           <Route path="/home" component={HomePage} />
           {/*<Route exact path="/menu" element={() => <Menu dishes={this.state.dishes} />} />*/}
@@ -124,7 +127,8 @@ class Main extends Component {
           />
           <Redirect to="/home" />
         </Switch>
-
+        </CSSTransition>
+        </TransitionGroup>
         <Footer />
       </>
     );
