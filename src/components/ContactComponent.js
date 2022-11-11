@@ -7,9 +7,10 @@ import {
   Label,
   Col,
   Row,
+
   //  Form, FormGroup, FormFeedback, Input
 } from "reactstrap";
-import { Control, Form, Errors, actions } from "react-redux-form";
+import { Control, LocalForm, Errors, actions } from "react-redux-form";
 
 
 const required = (val) => val && val.length; //checks to see if the value is greater than zero
@@ -29,6 +30,15 @@ class Contact extends Component {
     console.log("Current state is: " + JSON.stringify(values));
     alert("Current state is: " + JSON.stringify(values));
     this.props.resetFeedbackForm();
+    this.props.postFeedback(
+        values.firstname, 
+        values.lastname, 
+        values.telnum, 
+        values.email, 
+        values.agree, 
+        values.contactType, 
+        values.message
+      );
   }
 
   render() {
@@ -95,12 +105,12 @@ class Contact extends Component {
             <h3>Send us Your Feedback</h3>
           </div>
           <div className="col-12 col-md-9">
-            <Form model="feedback" onSubmit={(values) => this.handleSubmit(values)}>
+            <LocalForm model="feedback" onSubmit={(values) => this.handleSubmit(values)}>
               <Row className="form-group">
+                <Col md={10}>
                 <Label htmlFor="firstname" md={2}>
                   First Name
                 </Label>
-                <Col md={10}>
                   <Control.text
                     model=".firstname"
                     id="firstname"
@@ -117,10 +127,10 @@ class Contact extends Component {
                 </Col>
               </Row>
               <Row className="form-group">
+                <Col md={10}>
                 <Label htmlFor="lastname" md={2}>
                   Last Name
                 </Label>
-                <Col md={10}>
                   <Control.text
                     model=".lastname"
                     className="form-control"
@@ -137,10 +147,10 @@ class Contact extends Component {
                 </Col>
               </Row>
               <Row className="form-group">
+                <Col md={10}>
                 <Label htmlFor="telnum" md={2}>
                   Contact Tel.
                 </Label>
-                <Col md={10}>
                   <Control.text
                     model=".telnum"
                     className="form-control"
@@ -158,10 +168,10 @@ class Contact extends Component {
                 </Col>
               </Row>
               <Row className="form-group">
+                <Col md={10}>
                 <Label htmlFor="email" md={2}>
                   Email
                 </Label>
-                <Col md={10}>
                   <Control.text
                     model=".email"
                     className="form-control"
@@ -201,10 +211,10 @@ class Contact extends Component {
                 </Col>
               </Row>
               <Row className="form-group">
+                <Col md={10}>
                 <Label htmlFor="message" md={2}>
                   Your Feedback
                 </Label>
-                <Col md={10}>
                   <Control.textarea
                     model=".message"
                     id="message"
@@ -221,7 +231,7 @@ class Contact extends Component {
                   </Button>
                 </Col>
               </Row>
-            </Form>
+            </LocalForm>
           </div>
         </div>
       </div>
