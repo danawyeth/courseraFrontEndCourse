@@ -34,10 +34,6 @@ function About(props) {
     return <RenderLeader leaders={leaders} />;
   });
 
-  const leaders = props.leaders.leaders.map((leader) => {
-    return <p>Leader {leader.name}</p>;
-  });
-
   return (
     <div className="container">
       <div className="row">

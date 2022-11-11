@@ -29,7 +29,6 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => (
-  console.log("dispatched"),
   {
     postComment: (dishId, rating, author, comment) => dispatch(postComment(dishId, rating, author, comment)),
     postFeedback: (firstname, lastname, telnum, email, agree, contactType, message) => dispatch(postFeedback(firstname, lastname, telnum, email, agree, contactType, message)),

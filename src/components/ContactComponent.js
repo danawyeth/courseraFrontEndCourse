@@ -10,7 +10,7 @@ import {
 
   //  Form, FormGroup, FormFeedback, Input
 } from "reactstrap";
-import { Control, LocalForm, Errors, actions } from "react-redux-form";
+import { Control, LocalForm, Errors} from "react-redux-form";
 
 
 const required = (val) => val && val.length; //checks to see if the value is greater than zero
